@@ -38,11 +38,20 @@ fi
 
 git_name=`basename -s .git $(git config --get remote.origin.url)`
 
+# import config
+conf=""
+panel_number=0
+while IFS="" read -r l || [ -n "$l" ]; do
+    conf="$conf$l\n"
+    let panel_number++
+done < "$SCRIPT_DIR/presentation.tigui"
+
 render() {
     if [[ "$tigui_scene" == "home" ]]; then
         clear
         tput cup 0 0
         echo "${LIME_YELLOW}${REVERSE}TIGUI v$__TIGUI_VERSION$NORMAL ${BLUE}${REVERSE}in $BRIGHT$git_name$NORMAL"
+        echo -e "$conf$panel_number"
     fi
 }
 
